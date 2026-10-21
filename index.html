@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamSeat | Seating Plan Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-container">
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div><h2>ExamSeat</h2><p>Management System</p></div>
+  </div>
+  <div class="sidebar-heading">MAIN MENU</div>
+  <nav class="sidebar-nav">
+    <a href="#dashboard" class="nav-link active" data-section="dashboard"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+    <a href="#students" class="nav-link" data-section="students"><i class="fa-solid fa-users"></i><span>Students</span></a>
+    <a href="#rooms" class="nav-link" data-section="rooms"><i class="fa-solid fa-door-open"></i><span>Examination Rooms</span></a>
+    <a href="#seating" class="nav-link" data-section="seating"><i class="fa-solid fa-chair"></i><span>Seating Plan</span></a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="sidebar-help">
+      <i class="fa-solid fa-circle-info"></i>
+      <h4>Need Help?</h4>
+      <p>Manage your examination seating easily.</p>
+    </div>
+    <p class="sidebar-footer">ExamSeat v1.0</p>
+  </div>
+</aside>
+
+<main class="main-content">
+
+<header class="topbar">
+  <div class="topbar-left">
+    <h1 id="pageTitle">Dashboard</h1>
+    <p>Welcome back! Manage your examination arrangements.</p>
+  </div>
+  <div class="topbar-right">
+    <div class="today-date"><i class="fa-regular fa-calendar"></i><span id="currentDate">Today</span></div>
+    <div class="admin-profile">
+      <div class="admin-avatar">A</div>
+      <div><h4>Administrator</h4><p>Admin</p></div>
+    </div>
+  </div>
+</header>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page-section active">
+  <div class="welcome-banner">
+    <div>
+      <span class="banner-label">EXAMINATION MANAGEMENT</span>
+      <h2>Plan smarter. Seat better.</h2>
+      <p>Manage students, examination rooms, and seating arrangements from one place.</p>
+      <button type="button" class="btn btn-light" data-goto="seating"><i class="fa-solid fa-chair"></i> View Seating Plan</button>
+    </div>
+    <div class="banner-icon"><i class="fa-solid fa-building-columns"></i></div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+      <div><p>Total Students</p><h3 id="totalStudents">0</h3><span>Registered students</span></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-door-open"></i></div>
+      <div><p>Total Rooms</p><h3 id="totalRooms">0</h3><span>Available rooms</span></div></div>
+    <div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
+      <div><p>Allocated Students</p><h3 id="allocatedStudents">0</h3><span>Seats assigned</span></div></div>
+    <div class="stat-card"><div class="stat-icon orange"><i class="fa-solid fa-user-clock"></i></div>
+      <div><p>Unallocated</p><h3 id="unallocatedStudents">0</h3><span>Students without seats</span></div></div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="content-card">
+      <div class="card-header">
+        <div><h3>Recent Students</h3><p>Recently added student records</p></div>
+        <button type="button" class="btn btn-outline" data-goto="students">View All</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Roll Number</th><th>Student Name</th><th>Course</th><th>Examination</th><th>Action</th></tr></thead>
+          <tbody id="recentStudentsTable"><tr><td colspan="5">No students added yet.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="content-card">
+      <div class="card-header"><div><h3>Student Allocation</h3><p>Seating allocation summary</p></div></div>
+      <div id="studentChart" class="chart-container"><p>No allocation data available.</p></div>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <div><h3>Room Capacity Overview</h3><p>Check room capacity and allocated seats</p></div>
+      <button type="button" class="btn btn-primary" data-goto="rooms"><i class="fa-solid fa-plus"></i> Add Room</button>
+    </div>
+    <div id="roomChart" class="chart-container"><p>No room data available.</p></div>
+  </div>
+
+  <div class="dashboard-actions">
+    <button type="button" id="demoBtn" class="btn btn-primary"><i class="fa-solid fa-flask"></i> Load Demo Data</button>
+    <p>Use demo data to test the system before adding your own records.</p>
+  </div>
+</section>
+
+<!-- STUDENTS -->
+<section id="students" class="page-section">
+  <div class="section-intro"><div><h2>Student Management</h2><p>Add, search, and manage examination student records.</p></div></div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <div><h3>Add New Student</h3><p>Enter the student's examination details.</p></div>
+      <i class="fa-solid fa-user-plus card-heading-icon"></i>
+    </div>
+    <form id="studentForm">
+      <div class="form-grid">
+        <div class="form-group"><label for="studentName">Student Name</label><input type="text" id="studentName" placeholder="Enter full name" required></div>
+        <div class="form-group"><label for="rollNo">Roll Number</label><input type="text" id="rollNo" placeholder="e.g. CS001" required></div>
+        <div class="form-group"><label for="studentCourse">Course / Branch</label><input type="text" id="studentCourse" placeholder="e.g. B.Tech CSE" required></div>
+        <div class="form-group"><label for="studentExam">Examination Name</label><input type="text" id="studentExam" placeholder="e.g. Data Structures" required></div>
+      </div>
+      <div class="form-actions">
+        <button type="reset" class="btn btn-outline"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Student</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="content-card">
+    <div class="card-header student-list-header">
+      <div><h3>Registered Students</h3><p>All students registered in the system</p></div>
+      <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="search" id="studentSearch" placeholder="Search students..."></div>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Roll Number</th><th>Student Name</th><th>Course</th><th>Examination</th><th>Action</th></tr></thead>
+        <tbody id="studentsTable"><tr><td colspan="5">No students added yet.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section id="rooms" class="page-section">
+  <div class="section-intro"><div><h2>Examination Room Management</h2><p>Create rooms and manage their seating capacities.</p></div></div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <div><h3>Add Examination Room</h3><p>Enter room information and seat capacity.</p></div>
+      <i class="fa-solid fa-door-open card-heading-icon"></i>
+    </div>
+    <form id="roomForm">
+      <div class="form-grid">
+        <div class="form-group"><label for="roomName">Room Name / Number</label><input type="text" id="roomName" placeholder="e.g. Room 101" required></div>
+        <div class="form-group"><label for="roomCapacity">Seat Capacity</label><input type="number" id="roomCapacity" min="1" step="1" placeholder="e.g. 30" required></div>
+        <div class="form-group"><label for="roomBuilding">Building Name</label><input type="text" id="roomBuilding" placeholder="e.g. Block A"></div>
+      </div>
+      <div class="form-actions">
+        <button type="reset" class="btn btn-outline"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Room</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="content-card">
+    <div class="card-header"><div><h3>Available Examination Rooms</h3><p>View room capacity and seat availability.</p></div></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Room Name</th><th>Building</th><th>Total Capacity</th><th>Occupied Seats</th><th>Available Seats</th><th>Action</th></tr></thead>
+        <tbody id="roomsTable"><tr><td colspan="6">No rooms added yet.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SEATING -->
+<section id="seating" class="page-section">
+  <div class="section-intro"><div><h2>Examination Seating Plan</h2><p>Automatically assign students to available rooms and seats.</p></div></div>
+
+  <div class="content-card seating-info">
+    <div class="seating-info-icon"><i class="fa-solid fa-chair"></i></div>
+    <div class="seating-info-text">
+      <h3>Automatic Seat Allocation</h3>
+      <p>Add students and examination rooms first. The system will assign seats based on roll number and available room capacity.</p>
+    </div>
+    <button type="button" id="generatePlanBtn" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Seating Plan</button>
+  </div>
+
+  <div class="content-card">
+    <div class="card-header">
+      <div><h3>Allocated Seats</h3><p>Review the room and seat assigned to each student.</p></div>
+      <div class="table-actions">
+        <button type="button" id="printPlanBtn" class="btn btn-outline"><i class="fa-solid fa-print"></i> Print Chart</button>
+        <button type="button" id="clearPlanBtn" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Clear Plan</button>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Roll Number</th><th>Student Name</th><th>Room</th><th>Seat Number</th><th>Examination</th></tr></thead>
+        <tbody id="allocationsTable"><tr><td colspan="5">No seating plan generated yet.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer class="main-footer">
+  <p>© <span id="currentYear"></span> ExamSeat. Examination Hall Seating Plan Management System.</p>
+</footer>
+
+</main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
